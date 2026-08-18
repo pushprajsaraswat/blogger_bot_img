@@ -1,7 +1,0 @@
-{
-  "theme": "dark",
-  "font_size": 16,
-  "default_provider": "openrouter",
-  "default_model": "anthropic/claude-3.5-sonnet",
-  "streaming": true
-}
