@@ -1,0 +1,54 @@
+{
+  "article_count": 5,
+  "articles": [
+    {
+      "article_type": "encyclopedia",
+      "blogger_url": null,
+      "content_hash": "9e080c939fe8dc7bc2a8af3902824e96b47221e13cbd604e0195790177743fd9",
+      "draft_id": "3725b0c1-59ef-49b3-8eb9-36d186a825d2",
+      "path": "content/encyclopedia/work-texhnolyze-2003-a621b688-3725b0c1/article.html",
+      "status": "approved",
+      "title": "Texhnolyze (2003) — Encyclopedia Profile"
+    },
+    {
+      "article_type": "encyclopedia",
+      "blogger_url": null,
+      "content_hash": "d83131030fea53a945b9bcfd589b6a995d34aceecfc733e6d876afb76a19c390",
+      "draft_id": "0ff54d22-91d5-425a-b996-14a9907bd5b6",
+      "path": "content/encyclopedia/work-frieren-beyond-journey-s-end-2023-add6f416-0ff54d22/article.html",
+      "status": "approved",
+      "title": "Frieren: Beyond Journey's End (2023) — Encyclopedia Profile"
+    },
+    {
+      "article_type": "encyclopedia",
+      "blogger_url": null,
+      "content_hash": "37bc636c38a24ba0e3647575f8ff56d2e2f3ab5384e13cd610c9e8268d39ec2f",
+      "draft_id": "6828d95f-0262-4a8a-b9f1-e07a3d4cc461",
+      "path": "content/encyclopedia/work-school-rumble-2004-7bcd703c-6828d95f/article.html",
+      "status": "approved",
+      "title": "School Rumble (2004) — Encyclopedia Profile"
+    },
+    {
+      "article_type": "encyclopedia",
+      "blogger_url": null,
+      "content_hash": "9864a4dedfff1784f8fe6189d2f25df1a319d21374ed6fb6040cf509bf973d4b",
+      "draft_id": "006ff9cd-d65f-476d-ab5f-e821dafb7b55",
+      "path": "content/encyclopedia/work-oh-my-goddess-tv-2005-77f20502-006ff9cd/article.html",
+      "status": "approved",
+      "title": "Oh! My Goddess (TV) (2005) — Encyclopedia Profile"
+    },
+    {
+      "article_type": "encyclopedia",
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/neon-genesis-evangelion-death-rebirth_0432897618.html",
+      "content_hash": "5da24bc18e9aae6bfb9baa2cc33a3fd14520fe526818c7a9113bd18e9bbf1f00",
+      "draft_id": "5feb552d-5787-4617-94c7-9613f0944c39",
+      "path": "content/encyclopedia/work-neon-genesis-evangelion-death-rebirth-1997-e30d7a4c-5feb552d/article.html",
+      "status": "published",
+      "title": "Neon Genesis Evangelion: Death & Rebirth (1997) — Overview"
+    }
+  ],
+  "project": "Worldwide Entertainment Encyclopedia Bot",
+  "public_images_base_url": null,
+  "public_images_repo": null,
+  "schema": 1
+}
