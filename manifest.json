@@ -1,40 +1,40 @@
 {
-  "article_count": 6,
+  "article_count": 12,
   "articles": [
     {
       "article_type": "encyclopedia",
-      "blogger_url": null,
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/texhnolyze-2003-encyclopedia-profile_01716334605.html",
       "content_hash": "9e080c939fe8dc7bc2a8af3902824e96b47221e13cbd604e0195790177743fd9",
       "draft_id": "3725b0c1-59ef-49b3-8eb9-36d186a825d2",
       "path": "content/encyclopedia/work-texhnolyze-2003-a621b688-3725b0c1/article.html",
-      "status": "approved",
+      "status": "published",
       "title": "Texhnolyze (2003) — Encyclopedia Profile"
     },
     {
       "article_type": "encyclopedia",
-      "blogger_url": null,
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/frieren-beyond-journeys-end-2023_01868947883.html",
       "content_hash": "d83131030fea53a945b9bcfd589b6a995d34aceecfc733e6d876afb76a19c390",
       "draft_id": "0ff54d22-91d5-425a-b996-14a9907bd5b6",
       "path": "content/encyclopedia/work-frieren-beyond-journey-s-end-2023-add6f416-0ff54d22/article.html",
-      "status": "approved",
+      "status": "published",
       "title": "Frieren: Beyond Journey's End (2023) — Encyclopedia Profile"
     },
     {
       "article_type": "encyclopedia",
-      "blogger_url": null,
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/school-rumble-2004-encyclopedia-profile_0496945087.html",
       "content_hash": "37bc636c38a24ba0e3647575f8ff56d2e2f3ab5384e13cd610c9e8268d39ec2f",
       "draft_id": "6828d95f-0262-4a8a-b9f1-e07a3d4cc461",
       "path": "content/encyclopedia/work-school-rumble-2004-7bcd703c-6828d95f/article.html",
-      "status": "approved",
+      "status": "published",
       "title": "School Rumble (2004) — Encyclopedia Profile"
     },
     {
       "article_type": "encyclopedia",
-      "blogger_url": null,
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/oh-my-goddess-tv-2005-encyclopedia_01668609473.html",
       "content_hash": "9864a4dedfff1784f8fe6189d2f25df1a319d21374ed6fb6040cf509bf973d4b",
       "draft_id": "006ff9cd-d65f-476d-ab5f-e821dafb7b55",
       "path": "content/encyclopedia/work-oh-my-goddess-tv-2005-77f20502-006ff9cd/article.html",
-      "status": "approved",
+      "status": "published",
       "title": "Oh! My Goddess (TV) (2005) — Encyclopedia Profile"
     },
     {
@@ -54,6 +54,60 @@
       "path": "content/encyclopedia/work-oh-my-goddess-tv-2005-77f20502-ee3d5ee7/article.html",
       "status": "published",
       "title": "Oh! My Goddess (TV) (2005) — Encyclopedia Profile"
+    },
+    {
+      "article_type": "anime",
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/mobile-suit-gundam-00.html",
+      "content_hash": "9172d239-ff2a-4672-b3c4-ebbd0a094115",
+      "draft_id": "4c1067f9-d1c9-4e3e-86f4-04eb0f2f271b",
+      "path": "content/anime/mobile-suit-gundam-00-4c1067f9/article.html",
+      "status": "published",
+      "title": "Mobile Suit Gundam 00"
+    },
+    {
+      "article_type": "anime",
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/arc-lad.html",
+      "content_hash": "ccb639c3-ea23-4284-8c66-04db7044dfe8",
+      "draft_id": "25737bc8-09cf-46d3-a100-6e444c799908",
+      "path": "content/anime/arc-the-lad-25737bc8/article.html",
+      "status": "published",
+      "title": "Arc the Lad"
+    },
+    {
+      "article_type": "anime",
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/beck-mongolian-chop-squad.html",
+      "content_hash": "62ff5723-a26a-45ae-a2b7-870bdb2a492b",
+      "draft_id": "6fa8e006-dd14-4880-9cfc-d088ae76e4e4",
+      "path": "content/anime/beck-mongolian-chop-squad-6fa8e006/article.html",
+      "status": "published",
+      "title": "Beck: Mongolian Chop Squad"
+    },
+    {
+      "article_type": "anime",
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/blue-gender.html",
+      "content_hash": "1db91c68-f0bf-416d-ad4d-79bdc24595fc",
+      "draft_id": "6a130142-7e25-4210-945b-90fb8735e5ea",
+      "path": "content/anime/blue-gender-6a130142/article.html",
+      "status": "published",
+      "title": "Blue Gender"
+    },
+    {
+      "article_type": "anime",
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/chobits.html",
+      "content_hash": "a94fd03a-8c87-4d94-a9d7-1c27b743fd7c",
+      "draft_id": "609296bb-4c76-42d5-8518-faa135e743f9",
+      "path": "content/anime/chobits-609296bb/article.html",
+      "status": "published",
+      "title": "Chobits"
+    },
+    {
+      "article_type": "encyclopedia",
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/chrono-crusade-2003-encyclopedia-profile.html",
+      "content_hash": "df72effa05e67681e97dfec181993bf32d03faadcffda12b9b3fa54422d54c0e",
+      "draft_id": "0b8ae453-84fb-4bde-8424-f2a125279906",
+      "path": "content/encyclopedia/work-chrono-crusade-2003-71334cb1-0b8ae453/article.html",
+      "status": "published",
+      "title": "Chrono Crusade (2003) — Encyclopedia Profile"
     }
   ],
   "project": "Worldwide Entertainment Encyclopedia Bot",
