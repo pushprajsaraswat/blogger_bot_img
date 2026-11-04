@@ -1,5 +1,5 @@
 {
-  "article_count": 5,
+  "article_count": 6,
   "articles": [
     {
       "article_type": "encyclopedia",
@@ -45,6 +45,15 @@
       "path": "content/encyclopedia/work-neon-genesis-evangelion-death-rebirth-1997-e30d7a4c-5feb552d/article.html",
       "status": "published",
       "title": "Neon Genesis Evangelion: Death & Rebirth (1997) — Overview"
+    },
+    {
+      "article_type": "encyclopedia",
+      "blogger_url": "https://anime-archive-fan.blogspot.com/2026/11/oh-my-goddess-tv-2005-encyclopedia_0358450151.html",
+      "content_hash": "790a087e367b10b0db074dd484882d3a97bbc9e24a9ddfc4ab1a6ffce2f96948",
+      "draft_id": "ee3d5ee7-7d30-4fb0-8e62-b950b9e4528f",
+      "path": "content/encyclopedia/work-oh-my-goddess-tv-2005-77f20502-ee3d5ee7/article.html",
+      "status": "published",
+      "title": "Oh! My Goddess (TV) (2005) — Encyclopedia Profile"
     }
   ],
   "project": "Worldwide Entertainment Encyclopedia Bot",
