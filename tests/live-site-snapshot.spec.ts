@@ -27,7 +27,7 @@ test.describe('Live Site Snapshots', () => {
   });
 
   test('@live-snapshot single post page renders content', async ({ page }) => {
-    await page.goto(`${SITE_URL}/2026/11/frieren-beyond-journeys-end-2023_01221335584.html`, { waitUntil: 'networkidle' });
+    await page.goto(`${SITE_URL}/2026/11/contents-titles-and-naming-overview.html`, { waitUntil: 'networkidle' });
     await page.waitForTimeout(3000);
 
     const title = page.title();
