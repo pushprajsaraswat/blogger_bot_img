@@ -1,0 +1,51 @@
+name: Blogger.com Browser Login Automation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      blogger_email:
+        description: 'Blogger account email'
+        required: false
+      blogger_password:
+        description: 'Blogger account password'
+        required: false
+
+jobs:
+  blogger-login:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run blogger.com login automation
+        env:
+          BLOGGER_EMAIL: ${{ secrets.BLOGGER_EMAIL }}
+          BLOGGER_PASSWORD: ${{ secrets.BLOGGER_PASSWORD }}
+        run: npx playwright test --project=chromium --grep @blogger-login
+
+      - name: Upload login artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blogger-login-results
+          path: |
+            playwright-report/
+            test-results/
+            blogger-login-*.png
+          retention-days: 7
