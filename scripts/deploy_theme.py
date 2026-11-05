@@ -13,25 +13,43 @@ Then verifies by fetching the theme back from the API and the live homepage.
 """
 from __future__ import annotations
 
+import base64
+import hashlib
+import json
 import os
 import sys
+import time
 
-# Load .env so BLOGGER_* credentials are available even when run outside the
-# shell that exported them (dotenv never overwrites an already-set var).
-try:
-    from dotenv import load_dotenv
-    load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
-except Exception:
-    pass
+import httpx
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-
-from publish.client import BloggerClient  # noqa: E402
-
-BLOG_ID = os.getenv("BLOGGER_BLOG_ID", "")
 THEME_PATH = os.path.join(os.path.dirname(__file__), "..", "blogger_theme.xml")
+BLOG_ID = os.getenv("BLOGGER_BLOG_ID", "")
 HOMEPAGE = "https://anime-archive-fan.blogspot.com/"
+
+
+def _refresh_access_token() -> str:
+    """Use refresh token to get a fresh access token from Google OAuth."""
+    client_id = os.getenv("BLOGGER_CLIENT_ID", "")
+    client_secret = os.getenv("BLOGGER_CLIENT_SECRET", "")
+    refresh_token = os.getenv("BLOGGER_REFRESH_TOKEN", "")
+    if not all([client_id, client_secret, refresh_token]):
+        raise RuntimeError("Missing OAuth credentials (client_id, client_secret, refresh_token)")
+    r = httpx.post(
+        "https://oauth2.googleapis.com/token",
+        data={
+            "client_id": client_id,
+            "client_secret": client_secret,
+            "refresh_token": refresh_token,
+            "grant_type": "refresh_token",
+        },
+        timeout=30,
+    )
+    if r.status_code != 200:
+        raise RuntimeError(f"OAuth refresh failed: HTTP {r.status_code} {r.text[:200]}")
+    tok = r.json().get("access_token")
+    if not tok:
+        raise RuntimeError("OAuth refresh returned no access_token")
+    return tok
 
 
 def main() -> int:
@@ -51,28 +69,41 @@ def main() -> int:
         theme_xml = fh.read()
     print(f"  theme file: {THEME_PATH} ({len(theme_xml)} bytes)")
 
-    client = BloggerClient(dry_run=False)
-    print(f"  credentials: {'present' if client._has_credentials() else 'MISSING'}")
-    if not client.is_configured():
-        print("FATAL: Blogger client not configured (missing blog id or credentials).")
-        return 1
-
-    result = client.set_theme(theme_xml)
-    print(f"  deploy ok={result.ok} status={result.status} error={result.error}")
-    if not result.ok:
-        print("FATAL: theme deployment failed.")
-        return 1
-
-    # Verify: fetch the theme back from the API.
-    get_url = (
-        "https://www.googleapis.com/blogger/v3/blogs/"
-        + BLOG_ID + "/theme"
-    )
-    import httpx
+    # Get access token via OAuth refresh
     try:
-        token = client._current_token()
-        r = httpx.get(get_url, headers={"Authorization": "Bearer " + str(token)}, timeout=30)
-        print(f"  theme GET status={r.status_code} bytes={len(r.text or '')}")
+        token = _refresh_access_token()
+        print("  credentials: OAuth refresh OK")
+    except Exception as exc:
+        print(f"  credentials: FAILED — {exc}")
+        return 1
+
+    # Deploy theme via Blogger API v3 themes PUT endpoint
+    url = f"https://www.googleapis.com/blogger/v3/blogs/{BLOG_ID}/theme"
+    body = {"kind": "blogger#theme", "xml": theme_xml}
+    try:
+        r = httpx.put(
+            url,
+            headers={"Authorization": f"Bearer {token}"},
+            json=body,
+            timeout=60,
+        )
+        print(f"  deploy status={r.status_code}")
+        if r.status_code >= 400:
+            print(f"FATAL: theme deployment failed: {r.text[:500]}")
+            return 1
+        print("  deploy OK")
+    except Exception as exc:
+        print(f"FATAL: theme deployment error: {type(exc).__name__} {exc}")
+        return 1
+
+    # Verify: fetch the theme back from the API
+    try:
+        r = httpx.get(
+            url,
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=30,
+        )
+        print(f"  theme GET status={r.status_code}")
         if r.status_code == 200:
             data = r.json()
             stored = data.get("xml", "")
@@ -80,7 +111,7 @@ def main() -> int:
     except Exception as exc:
         print(f"  theme verify GET failed: {type(exc).__name__} {exc}")
 
-    # Verify: fetch the live homepage and check for post-rendering signals.
+    # Verify: fetch the live homepage
     try:
         r = httpx.get(HOMEPAGE, timeout=30, follow_redirects=True)
         html = r.text or ""
