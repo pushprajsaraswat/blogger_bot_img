@@ -3,9 +3,6 @@ name: Deploy Blogger Theme
 on:
   push:
     branches: [main]
-    paths:
-      - 'blogger_theme.xml'
-      - '.github/workflows/deploy-theme.yml'
   workflow_dispatch:
 
 jobs:
@@ -29,5 +26,7 @@ jobs:
       - name: Deploy theme via Blogger dashboard
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_EMAIL: ${{ secrets.BLOGGER_EMAIL }}
+          BLOGGER_PASSWORD: ${{ secrets.BLOGGER_PASSWORD }}
           THEME_XML_PATH: ./blogger_theme.xml
-        run: npx playwright test --project=chromium
+        run: npx playwright test tests/e2e/deploy-theme.spec.ts --project=chromium
