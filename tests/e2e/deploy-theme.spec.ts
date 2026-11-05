@@ -32,14 +32,22 @@ test('deploy theme via Blogger dashboard', async ({ page }) => {
   if (url.includes('accounts.google.com') || title.includes('Sign in')) {
     console.log('Redirecting to Google login...');
 
-    // Enter email
-    await page.fill('input[type="email"]', EMAIL, { timeout: 15000 });
-    await page.click('button:has-text("Next"), input[type="button"][value="Next"]', { timeout: 15000 });
+    // Google login: enter email
+    const emailInput = page.locator('input#identifierId, input[name="identifier"], input[type="email"]').first();
+    await emailInput.waitFor({ state: 'visible', timeout: 15000 });
+    await emailInput.fill(EMAIL);
+
+    // Click Next
+    await page.click('button#identifierNext, button:has-text("Next"), input[type="button"][value="Next"]', { timeout: 15000 });
     await page.waitForTimeout(3000);
 
-    // Enter password
-    await page.fill('input[type="password"]', PASSWORD, { timeout: 15000 });
-    await page.click('button:has-text("Next"), input[type="button"][value="Next"]', { timeout: 15000 });
+    // Google login: enter password
+    const passwordInput = page.locator('input#password, input[name="Passwd"], input[type="password"]').first();
+    await passwordInput.waitFor({ state: 'visible', timeout: 15000 });
+    await passwordInput.fill(PASSWORD);
+
+    // Click Next
+    await page.click('button#passwordNext, button:has-text("Next"), input[type="button"][value="Next"]', { timeout: 15000 });
     await page.waitForTimeout(5000);
 
     // Wait for redirect back to Blogger
