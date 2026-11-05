@@ -1,0 +1,14 @@
+{
+  "name": "blogger_bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Blogger encyclopedia bot - headless browser automation",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "install:browsers": "playwright install --with-deps chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0"
+  }
+}
