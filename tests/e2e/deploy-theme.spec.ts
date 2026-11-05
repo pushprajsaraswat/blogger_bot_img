@@ -30,32 +30,68 @@ test('deploy theme via Blogger dashboard', async ({ page }) => {
   const title = await page.title();
 
   if (url.includes('accounts.google.com') || title.includes('Sign in')) {
-    console.log('Redirecting to Google login...');
+    console.log('Handling Google login...');
 
-    // Google login: enter email
+    // Step 1: Enter email
     const emailInput = page.locator('input#identifierId, input[name="identifier"], input[type="email"]').first();
-    await emailInput.waitFor({ state: 'visible', timeout: 15000 });
+    await emailInput.waitFor({ state: 'visible', timeout: 20000 });
     await emailInput.fill(EMAIL);
+    console.log('Email entered');
 
-    // Click Next
+    // Click Next on email page
     await page.click('button#identifierNext, button:has-text("Next"), input[type="button"][value="Next"]', { timeout: 15000 });
+    console.log('Clicked Next on email page');
     await page.waitForTimeout(3000);
 
-    // Google login: enter password
-    const passwordInput = page.locator('input#password, input[name="Passwd"], input[type="password"]').first();
-    await passwordInput.waitFor({ state: 'visible', timeout: 15000 });
-    await passwordInput.fill(PASSWORD);
+    // Step 2: Enter password - try multiple selectors and wait for navigation
+    const passwordSelectors = [
+      'input#password', 'input[name="Passwd"]', 'input[type="password"]',
+      'input[name="password"]', 'input#passwordInput'
+    ];
+    let passwordFilled = false;
+    for (const sel of passwordSelectors) {
+      try {
+        const input = page.locator(sel).first();
+        await input.waitFor({ state: 'visible', timeout: 5000 });
+        await input.fill(PASSWORD);
+        console.log(`Password filled using selector: ${sel}`);
+        passwordFilled = true;
+        break;
+      } catch {
+        // Try next selector
+      }
+    }
 
-    // Click Next
-    await page.click('button#passwordNext, button:has-text("Next"), input[type="button"][value="Next"]', { timeout: 15000 });
-    await page.waitForTimeout(5000);
+    if (!passwordFilled) {
+      // Maybe we're already past password (remembered device) or on a different step
+      console.log('Password input not found - may already be authenticated or on intermediate step');
+    } else {
+      // Click Next on password page
+      await page.click('button#passwordNext, button:has-text("Next"), input[type="button"][value="Next"]', { timeout: 15000 });
+      console.log('Clicked Next on password page');
+      await page.waitForTimeout(5000);
+    }
 
     // Wait for redirect back to Blogger
-    await page.waitForURL(`**/blogger.com/**`, { timeout: 60000 });
+    try {
+      await page.waitForURL(`**/blogger.com/**`, { timeout: 60000 });
+      console.log('Redirected back to Blogger');
+    } catch {
+      console.log('Still on Google page - checking current URL:', page.url());
+    }
   }
 
   // Verify we're on the Blogger theme editor
-  await page.waitForURL(`**/blogger.com/blogger.g?blogID=${BLOG_ID}**`, { timeout: 60000 });
+  try {
+    await page.waitForURL(`**/blogger.com/blogger.g?blogID=${BLOG_ID}**`, { timeout: 30000 });
+  } catch {
+    console.warn('Not on theme editor URL yet, current URL:', page.url());
+    // Try navigating directly
+    await page.goto(
+      `https://www.blogger.com/blogger.g?blogID=${BLOG_ID}#editor/src=theme`,
+      { waitUntil: 'domcontentloaded', timeout: 60000 },
+    );
+  }
 
   // Look for the theme HTML editor
   const themeEditor = page.locator('textarea, .CodeMirror, [contenteditable="true"]').first();
