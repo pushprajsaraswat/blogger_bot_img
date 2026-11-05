@@ -1,0 +1,36 @@
+name: Deploy Blogger Theme
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blogger_theme.xml'
+      - 'scripts/deploy_theme.py'
+      - '.github/workflows/deploy-theme.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy-theme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install httpx python-dotenv
+
+      - name: Deploy theme to live Blogger blog
+        env:
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN }}
+          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+        run: python scripts/deploy_theme.py
