@@ -5,31 +5,29 @@ on:
     branches: [main]
     paths:
       - 'blogger_theme.xml'
-      - 'scripts/deploy_theme.py'
       - '.github/workflows/deploy-theme.yml'
   workflow_dispatch:
 
 jobs:
   deploy-theme:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '20'
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: pip install httpx python-dotenv
+      - name: Install Playwright
+        run: npm init -y && npm install @playwright/test && npx playwright install --with-deps chromium
 
-      - name: Deploy theme to live Blogger blog
+      - name: Deploy theme via Blogger dashboard
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
-          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN }}
-          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
-          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
-        run: python scripts/deploy_theme.py
+          THEME_XML_PATH: ./blogger_theme.xml
+        run: npx playwright test --project=chromium
