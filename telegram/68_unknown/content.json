@@ -1,0 +1,16 @@
+{
+  "platform": "telegram",
+  "platform_content_id": "68",
+  "title": "",
+  "anime_name": "unknown",
+  "content_url": "https://t.me/animearchive/68",
+  "content_summary": "\ud83c\udfac LONA - WIT Studio Original Anime\n\nLONA new original anime series from WIT Studio premiering Spring 2027. Directed by Takashi Katagiri (SPY x FACTORIAL CODE: White), series composition by Akiko Nogi ",
+  "character_names": [],
+  "character_ids": [],
+  "labels": [],
+  "content_type": "telegram_message",
+  "publication_date": "2026-11-21 04:56:12+00:00",
+  "has_media": true,
+  "source": "Telegram",
+  "last_synchronized": "2026-11-21T00:00:00Z"
+}

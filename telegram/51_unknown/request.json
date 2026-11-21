@@ -1,0 +1,44 @@
+{
+  "content_identity": {
+    "platform": "telegram",
+    "platform_content_id": "51",
+    "title": ""
+  },
+  "anime_identity": {
+    "anime_name": "unknown"
+  },
+  "content_title_summary": "\ud83c\udfac Kagurabachi\n\n\u2694\ufe0f Kagurabachi anime premieres April 2027! Chihiro Rokuhira wields Enten \u2014 a sword that summons goldfish: Kuro (inescapable slashes), Aka (absolute defense), Nishiki (teleport speed). R",
+  "required_artwork_categories": [
+    "featured"
+  ],
+  "featured_image_requirements": {
+    "description": "Featured image for content",
+    "preferred_dimensions": "800x450",
+    "preferred_aspect_ratio": "1.77:1"
+  },
+  "character_image_requirements": {
+    "enabled": false,
+    "character_ids": []
+  },
+  "scene_image_requirements": {
+    "enabled": false,
+    "description": "Scene images not typically required for blog posts or telegram messages"
+  },
+  "promotional_image_requirements": {
+    "enabled": false,
+    "description": "Promotional images not typically required"
+  },
+  "suggested_filenames": {
+    "featured": "featured.jpg",
+    "additional": []
+  },
+  "artwork_count_requirements": {
+    "featured": 0,
+    "inline": 0,
+    "total": 0
+  },
+  "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
+  "priority": "normal",
+  "request_creation_date": "2026-11-21T00:00:00Z",
+  "request_status": "pending"
+}

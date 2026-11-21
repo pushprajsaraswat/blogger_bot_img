@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Content Information Schema",
+  "type": "object",
+  "required": [
+    "platform",
+    "platform_content_id",
+    "title",
+    "anime_name",
+    "content_url"
+  ],
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": [
+        "blogger",
+        "telegram",
+        "instagram",
+        "facebook",
+        "youtube"
+      ],
+      "description": "The publishing platform"
+    },
+    "platform_content_id": {
+      "type": "string",
+      "description": "Stable platform-specific content ID"
+    },
+    "title": {
+      "type": "string",
+      "description": "Content title"
+    },
+    "anime_name": {
+      "type": "string",
+      "description": "Anime title associated with the content"
+    },
+    "anime_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Verified anime ID from reference database, if available"
+    },
+    "content_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the content on the publishing platform"
+    },
+    "content_summary": {
+      "type": "string",
+      "description": "Brief summary of the content"
+    },
+    "character_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of character names referenced in the content"
+    },
+    "character_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of verified character IDs"
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Labels/categories/tags assigned to the content"
+    },
+    "content_type": {
+      "type": "string",
+      "enum": [
+        "blogger_post",
+        "telegram_message",
+        "instagram_post",
+        "facebook_post",
+        "youtube_video"
+      ],
+      "description": "Type of content"
+    },
+    "publication_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Original publication date"
+    },
+    "has_media": {
+      "type": "boolean",
+      "description": "Whether the content contains media/images"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source identifier (e.g., 'Blogger', 'Telegram')"
+    },
+    "last_synchronized": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of last synchronization with platform API"
+    }
+  },
+  "additionalProperties": false
+}

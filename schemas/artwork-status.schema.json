@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Artwork Status Schema",
+  "type": "object",
+  "required": [
+    "content_id",
+    "overall_status",
+    "last_verified",
+    "image_assignments",
+    "distribution_history"
+  ],
+  "properties": {
+    "content_id": {
+      "type": "string",
+      "description": "Reference to the content item"
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": [
+        "DISCOVERED",
+        "BACKED_UP",
+        "OLD_ARTWORK_REMOVED",
+        "NEEDS_ARTWORK",
+        "ARTWORK_AVAILABLE",
+        "REPLACEMENT_PUBLISHED",
+        "VERIFIED",
+        "FAILED",
+        "NEEDS_REVIEW"
+      ],
+      "description": "Current migration and artwork status"
+    },
+    "last_verified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the status was last verified"
+    },
+    "image_assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "image_hash",
+          "platform_assignment",
+          "status"
+        ],
+        "properties": {
+          "image_hash": {
+            "type": "string"
+          },
+          "platform_assignment": {
+            "type": "string",
+            "enum": [
+              "blogger",
+              "telegram"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "assigned",
+              "published",
+              "failed",
+              "duplicate_skipped"
+            ]
+          }
+        }
+      },
+      "description": "List of artwork assignments per platform"
+    },
+    "distribution_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string",
+            "enum": [
+              "blogger",
+              "telegram"
+            ]
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "removed",
+              "replaced",
+              "added",
+              "updated"
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "History of image distribution actions per platform"
+    },
+    "duplicate_prevention": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "sha256",
+            "filename",
+            "content_aware"
+          ]
+        },
+        "last_checked": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "description": "Duplicate prevention configuration"
+    }
+  },
+  "additionalProperties": false
+}

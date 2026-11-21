@@ -1,0 +1,18 @@
+{
+  "content_id": "45",
+  "overall_status": "BACKED_UP",
+  "last_verified": "2026-11-21T00:00:00Z",
+  "image_assignments": [],
+  "distribution_history": [
+    {
+      "platform": "telegram",
+      "action": "backed_up",
+      "timestamp": "2026-11-21T00:00:00Z",
+      "verified": true
+    }
+  ],
+  "backup_info": {
+    "backup_timestamp": "2026-11-21T00:00:00Z",
+    "message_id": "45"
+  }
+}

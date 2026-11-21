@@ -1,0 +1,34 @@
+{
+  "placeholder": {
+    "metadata": {
+      "anime_name": "placeholder",
+      "anime_id": "placeholder",
+      "source": "manual",
+      "first_seen": "2026-11-21T00:00:00Z",
+      "last_updated": "2026-11-21T00:00:00Z"
+    },
+    "references": [],
+    "inventory": {
+      "total_artworks": 0,
+      "by_category": {
+        "featured": 0,
+        "inline": 0,
+        "additional": 0
+      },
+      "by_format": {
+        "jpg": 0,
+        "png": 0,
+        "webp": 0
+      }
+    },
+    "asset_registry": {
+      "total_assets": 0,
+      "by_hash": {},
+      "deduplication_status": "pending"
+    },
+    "contributors": {
+      "total_contributors": 0,
+      "by_provider": {}
+    }
+  }
+}

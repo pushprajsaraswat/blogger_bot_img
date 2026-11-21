@@ -1,0 +1,22 @@
+{
+  "content_id": "6291790156133148949",
+  "overall_status": "BACKED_UP",
+  "last_verified": "2026-11-21T00:00:00Z",
+  "image_assignments": [],
+  "distribution_history": [
+    {
+      "platform": "blogger",
+      "action": "backed_up",
+      "timestamp": "2026-11-21T00:00:00Z",
+      "verified": true
+    }
+  ],
+  "backup_info": {
+    "backup_timestamp": "2026-11-21T00:00:00Z",
+    "image_urls_recorded": [
+      "https://example.com/test-image.jpg",
+      "\"data:image/jpeg;base64"
+    ],
+    "post_id": "6291790156133148949"
+  }
+}

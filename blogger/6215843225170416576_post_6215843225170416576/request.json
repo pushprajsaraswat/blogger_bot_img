@@ -1,0 +1,45 @@
+{
+  "content_identity": {
+    "platform": "blogger",
+    "platform_content_id": "6215843225170416576",
+    "title": ""
+  },
+  "anime_identity": {
+    "anime_name": "post_6215843225170416576"
+  },
+  "content_title_summary": "<figure>\n<img src=\"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFB",
+  "required_artwork_categories": [
+    "featured",
+    "inline"
+  ],
+  "featured_image_requirements": {
+    "description": "Featured image for content",
+    "preferred_dimensions": "1200x628",
+    "preferred_aspect_ratio": "1.91:1"
+  },
+  "character_image_requirements": {
+    "enabled": false,
+    "character_ids": []
+  },
+  "scene_image_requirements": {
+    "enabled": false,
+    "description": "Scene images not typically required for blog posts or telegram messages"
+  },
+  "promotional_image_requirements": {
+    "enabled": false,
+    "description": "Promotional images not typically required"
+  },
+  "suggested_filenames": {
+    "featured": "featured.jpg",
+    "additional": []
+  },
+  "artwork_count_requirements": {
+    "featured": 0,
+    "inline": 0,
+    "total": 0
+  },
+  "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
+  "priority": "normal",
+  "request_creation_date": "2026-11-21T00:00:00Z",
+  "request_status": "pending"
+}

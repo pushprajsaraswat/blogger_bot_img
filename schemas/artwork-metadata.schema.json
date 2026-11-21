@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Artwork Metadata Schema",
+  "type": "object",
+  "required": [
+    "artwork_id",
+    "content_id",
+    "platform",
+    "file_path",
+    "file_hash",
+    "category",
+    "dimensions",
+    "format",
+    "contributor_info",
+    "creation_date",
+    "approval_status"
+  ],
+  "properties": {
+    "artwork_id": {
+      "type": "string",
+      "description": "Unique identifier for the artwork (e.g., SHA256 hash or provider-generated ID)"
+    },
+    "content_id": {
+      "type": "string",
+      "description": "Reference to the content item this artwork is for"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "blogger",
+        "telegram",
+        "instagram",
+        "facebook",
+        "youtube"
+      ],
+      "description": "Target platform"
+    },
+    "file_path": {
+      "type": "string",
+      "description": "Relative path to the artwork file within the content folder"
+    },
+    "file_hash": {
+      "type": "string",
+      "description": "SHA256 hash of the artwork file for deduplication"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "featured",
+        "inline",
+        "character",
+        "scene",
+        "promotional",
+        "additional"
+      ],
+      "description": "Artwork category"
+    },
+    "dimensions": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "px",
+            "cm",
+            "in"
+          ],
+          "default": "px"
+        }
+      }
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp",
+        "gif"
+      ],
+      "description": "Image file format"
+    },
+    "contributor_info": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "AI provider or 'human'"
+        },
+        "model_name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Model name if AI-generated, null if human-created"
+        },
+        "contributor_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "External contributor ID, if applicable"
+        }
+      },
+      "additionalProperties": false
+    },
+    "creation_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the artwork was created"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "needs_revision"
+      ],
+      "description": "Approval status of the artwork"
+    },
+    "licensing_info": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "cc-by",
+            "cc-by-sa",
+            "cc0",
+            "all_rights_reserved",
+            "custom"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "match_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score (0-1) of how well the artwork matches the request"
+    }
+  },
+  "additionalProperties": false
+}

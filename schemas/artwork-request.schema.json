@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Artwork Request Schema",
+  "type": "object",
+  "required": [
+    "content_identity",
+    "anime_identity",
+    "required_artwork_categories",
+    "artwork_count_requirements",
+    "request_creation_date",
+    "request_status"
+  ],
+  "properties": {
+    "content_identity": {
+      "type": "object",
+      "required": [
+        "platform",
+        "platform_content_id",
+        "title"
+      ],
+      "properties": {
+        "platform": {
+          "type": "string"
+        },
+        "platform_content_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "anime_identity": {
+      "type": "object",
+      "required": [
+        "anime_name"
+      ],
+      "properties": {
+        "anime_name": {
+          "type": "string"
+        },
+        "anime_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Verified anime ID, if available"
+        }
+      },
+      "additionalProperties": false
+    },
+    "content_title_summary": {
+      "type": "string",
+      "description": "Summary of content title and context"
+    },
+    "required_artwork_categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Artwork categories needed"
+    },
+    "featured_image_requirements": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "preferred_dimensions": {
+          "type": "string"
+        },
+        "preferred_aspect_ratio": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "character_image_requirements": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "character_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "scene_image_requirements": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "promotional_image_requirements": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "suggested_filenames": {
+      "type": "object",
+      "properties": {
+        "featured": {
+          "type": "string"
+        },
+        "additional": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "artwork_count_requirements": {
+      "type": "object",
+      "properties": {
+        "featured": {
+          "type": "integer"
+        },
+        "inline": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "visual_context_and_instructions": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "urgent"
+      ],
+      "description": "Priority level for artwork fulfillment"
+    },
+    "request_creation_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the artwork request was created"
+    },
+    "request_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "failed"
+      ],
+      "description": "Current status of the artwork request"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,16 @@
+{
+  "platform": "telegram",
+  "platform_content_id": "31",
+  "title": "",
+  "anime_name": "unknown",
+  "content_url": "https://t.me/animearchive/31",
+  "content_summary": "\ud83c\udfac LONA\n\nWIT Studio announces LONA, an original anime television series premiering Spring 2027. Conceived and written by acclaimed screenwriter Akiko Nogi (Unnatural, MIU404). Directed by Takashi Katag",
+  "character_names": [],
+  "character_ids": [],
+  "labels": [],
+  "content_type": "telegram_message",
+  "publication_date": "2026-11-20 07:05:31+00:00",
+  "has_media": true,
+  "source": "Telegram",
+  "last_synchronized": "2026-11-21T00:00:00Z"
+}
