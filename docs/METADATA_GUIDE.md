@@ -11,8 +11,7 @@ Each content item has its own folder with the following structure:
   {platform_id}_{anime_name}/
     content.json          # Platform and content identification
     request.json          # Artwork requirements
-    metadata.json         # Current state and artwork assignments
-    status.json           # Migration and verification status
+    status.json           # Current status, backup evidence, and artwork assignments
     artwork/
       featured/{artwork}  # Featured artwork
       inline/{artwork}  # Inline article images
@@ -61,7 +60,7 @@ Each content item has its own folder with the following structure:
 | `request_creation_date` | string | ISO 8601 timestamp |
 | `request_status` | string | Request status |
 
-## metadata.json Fields (per content folder)
+## status.json Fields (per content folder)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -71,6 +70,7 @@ Each content item has its own folder with the following structure:
 | `image_assignments` | array | Platform-specific artwork assignments |
 | `distribution_history` | array | History of image actions |
 | `duplicate_prevention` | object | Dedup config |
+| `backup_info` | object | Backup timestamp and platform identifiers/recorded image URLs |
 
 ## artwork-metadata.json Fields (per artwork file)
 
