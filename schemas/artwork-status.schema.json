@@ -85,7 +85,8 @@
               "removed",
               "replaced",
               "added",
-              "updated"
+              "updated",
+              "backed_up"
             ]
           },
           "timestamp": {
@@ -116,6 +117,29 @@
         }
       },
       "description": "Duplicate prevention configuration"
+    },
+    "backup_info": {
+      "type": "object",
+      "description": "Evidence recorded when a platform content item was backed up before artwork changes.",
+      "properties": {
+        "backup_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "image_urls_recorded": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "post_id": {
+          "type": "string"
+        },
+        "message_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false
