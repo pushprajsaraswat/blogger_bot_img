@@ -7,7 +7,7 @@
   "anime_identity": {
     "anime_name": "One piece"
   },
-  "content_title_summary": "\ud83c\udfac Best Action Anime of 2027\n\nBest action anime of 2027 ranking: Shangri-La Frontier S3 leads the list, premiering January 10 on Crunchyroll. Also featured: Mashle S3, The One Piece remake, Sakamoto Da",
+  "content_title_summary": "🎬 Best Action Anime of 2027\n\nBest action anime of 2027 ranking: Shangri-La Frontier S3 leads the list, premiering January 10 on Crunchyroll. Also featured: Mashle S3, The One Piece remake, Sakamoto Da",
   "required_artwork_categories": [
     "featured"
   ],
@@ -39,5 +39,13 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0
+  },
+  "last_discovery_sync": "2026-11-22T08:51:58.801894+00:00",
+  "artwork_by_category": {
+    "featured": []
+  }
 }

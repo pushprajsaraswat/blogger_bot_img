@@ -7,7 +7,7 @@
   "anime_identity": {
     "anime_name": "Demon slayer"
   },
-  "content_title_summary": "\ud83c\udfac Demon Slayer Infinity Castle Ending Explained\n\n\u2694\ufe0f Demon Slayer Infinity Castle Ending Explained (SPOILERS): Kokushibo's tragic Yoriichi backstory, Hashira final stands (Gyomei, Sanemi, Muichiro, Gen",
+  "content_title_summary": "🎬 Demon Slayer Infinity Castle Ending Explained\n\n⚔️ Demon Slayer Infinity Castle Ending Explained (SPOILERS): Kokushibo's tragic Yoriichi backstory, Hashira final stands (Gyomei, Sanemi, Muichiro, Gen",
   "required_artwork_categories": [
     "featured"
   ],
@@ -39,5 +39,13 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0
+  },
+  "last_discovery_sync": "2026-11-22T08:51:58.861644+00:00",
+  "artwork_by_category": {
+    "featured": []
+  }
 }

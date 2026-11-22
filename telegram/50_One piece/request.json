@@ -7,7 +7,7 @@
   "anime_identity": {
     "anime_name": "One piece"
   },
-  "content_title_summary": "\ud83c\udfac The One Piece (Wit Studio Remake)\n\n\ud83c\udff4\u200d\u2620\ufe0f The One Piece (Wit Studio Remake) premieres February 2027 on Netflix! All 7 episodes drop at once, covering the East Blue Saga (ch 1-100). Luffy, Zoro, Nami, ",
+  "content_title_summary": "🎬 The One Piece (Wit Studio Remake)\n\n🏴‍☠️ The One Piece (Wit Studio Remake) premieres February 2027 on Netflix! All 7 episodes drop at once, covering the East Blue Saga (ch 1-100). Luffy, Zoro, Nami, ",
   "required_artwork_categories": [
     "featured"
   ],
@@ -39,5 +39,13 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0
+  },
+  "last_discovery_sync": "2026-11-22T08:51:58.831900+00:00",
+  "artwork_by_category": {
+    "featured": []
+  }
 }
