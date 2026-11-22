@@ -1,301 +1,219 @@
 #!/usr/bin/env python3
+"""Discover artwork in platform/post-ID folders and safely synchronize status.json.
+
+The request.json file is authoritative for requested artwork counts. Discovery
+must never rewrite those requirements: it only records files that actually exist.
 """
-Hermes Platform/Post-ID Artwork Discovery and Validation Script
-
-Discovers artwork images in platform/post-ID folders, validates metadata,
-updates status.json, and ensures idempotent synchronization with GitHub.
-
-Folder structure expected:
-  {platform}/{post_id}_{anime_name}/
-    content.json
-    request.json
-    status.json
-    artwork/
-      featured/{artwork-filename}
-      inline/{artwork-filename}
-      characters/{artwork-filename}
-      scenes/{artwork-filename}
-      promotional/{artwork-filename}
-      additional/{artwork-filename}
-"""
-
-import json
 import hashlib
-import os
-from pathlib import Path
+import json
+import struct
 from datetime import datetime, timezone
+from pathlib import Path
 
-IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
-VALID_PLATFORMS = {'blogger', 'telegram', 'instagram', 'facebook', 'youtube'}
-REQUIRED_ARTWORK_META_FIELDS = [
-    'artwork_id', 'content_id', 'platform', 'file_path', 'file_hash',
-    'category', 'dimensions', 'format', 'contributor_info', 'creation_date',
-    'approval_status'
-]
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
+VALID_PLATFORMS = {"blogger", "telegram", "instagram", "facebook", "youtube"}
+CATEGORY_MAP = {
+    "featured": "featured", "inline": "inline",
+    "characters": "character", "character": "character",
+    "scenes": "scene", "scene": "scene",
+    "promotional": "promotional", "additional": "additional",
+}
 
 
-def compute_sha256(filepath):
-    h = hashlib.sha256()
-    with open(filepath, 'rb') as f:
-        for chunk in iter(lambda: f.read(8192), b''):
-            h.update(chunk)
-    return h.hexdigest()
+def utc_now():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def compute_sha256(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def image_dimensions(path):
+    """Read dimensions from common image headers without third-party packages."""
+    with open(path, "rb") as stream:
+        head = stream.read(32)
+        if head.startswith(b"\x89PNG\r\n\x1a\n") and len(head) >= 24:
+            return struct.unpack(">II", head[16:24])
+        if head[:6] in (b"GIF87a", b"GIF89a") and len(head) >= 10:
+            return struct.unpack("<HH", head[6:10])
+        if head[:2] == b"BM" and len(head) >= 26:
+            return struct.unpack("<ii", head[18:26])
+        if head[:4] == b"RIFF" and head[8:12] == b"WEBP":
+            kind = head[12:16]
+            if kind == b"VP8X" and len(head) >= 30:
+                return (1 + int.from_bytes(head[24:27], "little"),
+                        1 + int.from_bytes(head[27:30], "little"))
+        if head[:2] != b"\xff\xd8":
+            raise ValueError("Unsupported or invalid image header")
+        stream.seek(2)
+        while True:
+            marker_start = stream.read(1)
+            if not marker_start:
+                break
+            if marker_start != b"\xff":
+                continue
+            marker = stream.read(1)
+            while marker == b"\xff":
+                marker = stream.read(1)
+            if marker in (b"\xd8", b"\xd9", b"\x01") or (marker and 0xd0 <= marker[0] <= 0xd7):
+                continue
+            raw_len = stream.read(2)
+            if len(raw_len) != 2:
+                break
+            length = int.from_bytes(raw_len, "big")
+            if marker and marker[0] in (0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf):
+                data = stream.read(5)
+                if len(data) == 5:
+                    height = int.from_bytes(data[1:3], "big")
+                    width = int.from_bytes(data[3:5], "big")
+                    return width, height
+                break
+            stream.seek(max(0, length - 2), 1)
+    raise ValueError("Could not determine image dimensions")
+
+
+def _content_id(post_folder):
+    for filename in ("status.json", "request.json", "content.json"):
+        path = post_folder / filename
+        if not path.is_file():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        candidates = [
+            data.get("content_id"),
+            data.get("platform_content_id"),
+            (data.get("content_identity") or {}).get("platform_content_id"),
+        ]
+        for candidate in candidates:
+            if isinstance(candidate, (str, int)) and str(candidate).strip():
+                return str(candidate)
+    return None
 
 
 def discover_images(base_dir):
-    """
-    Scan all platform/post-ID folders and discover artwork images.
-    Returns dict: {(platform, post_id): {'folder': full_path, 'images_by_category': {...}, 'total': N, 'post_folder_name': name}}
-    """
-    discovered = {}
     base = Path(base_dir).resolve()
-    
+    discovered = {}
+    if not base.is_dir():
+        raise NotADirectoryError(str(base))
     for platform_dir in sorted(base.iterdir()):
-        if not platform_dir.is_dir():
+        if not platform_dir.is_dir() or platform_dir.name not in VALID_PLATFORMS:
             continue
-        platform = platform_dir.name
-        if platform not in VALID_PLATFORMS:
-            continue
-        
         for post_folder in sorted(platform_dir.iterdir()):
-            if not post_folder.is_dir():
+            if not post_folder.is_dir() or not (post_folder / "request.json").is_file():
                 continue
-            
-            post_id = post_folder.name
-            artwork_dir = post_folder / 'artwork'
-            
             entry = {
-                'folder': str(post_folder),  # full path
-                'images_by_category': {},
-                'total': 0,
-                'post_folder_name': post_id
+                "folder": post_folder,
+                "content_id": _content_id(post_folder),
+                "images_by_category": {},
+                "total": 0,
             }
-            
-            if not artwork_dir.is_dir():
-                discovered[(platform, post_id)] = entry
-                continue
-            
-            images_by_category = {}
-            total = 0
-            
-            for cat_dir in sorted(artwork_dir.iterdir()):
-                if not cat_dir.is_dir():
-                    continue
-                cat_name = cat_dir.name
-                if cat_name not in {'featured', 'inline', 'characters', 'scenes', 'promotional', 'additional'}:
-                    continue
-                
-                cat_images = []
-                for img_file in sorted(cat_dir.iterdir()):
-                    if img_file.is_file() and img_file.suffix.lower() in IMAGE_EXTENSIONS:
-                        file_hash = compute_sha256(str(img_file))
-                        meta = {
-                            'filename': img_file.name,
-                            'filepath': str(img_file),
-                            'category': cat_name,
-                            'file_hash': file_hash,
-                            'file_size': img_file.stat().st_size,
-                        }
-                        cat_images.append(meta)
-                        total += 1
-                
-                if cat_images:
-                    images_by_category[cat_name] = cat_images
-            
-            entry['images_by_category'] = images_by_category
-            entry['total'] = total
-            discovered[(platform, post_id)] = entry
-    
+            artwork_dir = post_folder / "artwork"
+            if artwork_dir.is_dir():
+                for category_dir in sorted(artwork_dir.iterdir()):
+                    if not category_dir.is_dir() or category_dir.name not in CATEGORY_MAP:
+                        continue
+                    category = CATEGORY_MAP[category_dir.name]
+                    for image_path in sorted(category_dir.iterdir()):
+                        if not image_path.is_file() or image_path.suffix.lower() not in IMAGE_EXTENSIONS:
+                            continue
+                        try:
+                            width, height = image_dimensions(image_path)
+                            image = {
+                                "filename": image_path.name,
+                                "path": image_path,
+                                "file_path": image_path.relative_to(base).as_posix(),
+                                "category": category,
+                                "file_hash": compute_sha256(image_path),
+                                "dimensions": {"width": width, "height": height, "unit": "px"},
+                                "format": image_path.suffix.lower().lstrip("."),
+                                "creation_date": datetime.fromtimestamp(
+                                    image_path.stat().st_mtime, timezone.utc
+                                ).isoformat(),
+                            }
+                        except (OSError, ValueError) as exc:
+                            print(f"WARNING: skipping invalid image {image_path}: {exc}")
+                            continue
+                        entry["images_by_category"].setdefault(category, []).append(image)
+                        entry["total"] += 1
+            discovered[(platform_dir.name, post_folder.name)] = entry
     return discovered
 
 
-def validate_artwork_metadata(meta):
-    missing = []
-    for field in REQUIRED_ARTWORK_META_FIELDS:
-        if field not in meta:
-            missing.append(field)
-    return missing
-
-
-def build_artwork_metadata(img, content_id, platform):
-    fmt = img['filename'].split('.')[-1].lower()
-    if fmt not in {'jpg', 'jpeg', 'png', 'webp', 'gif'}:
-        fmt = 'jpg'
-    
+def build_artwork_metadata(image, content_id, platform):
+    if not content_id:
+        raise ValueError("Cannot assign artwork without a verified content ID")
     return {
-        'artwork_id': img['file_hash'][:16] + '...',
-        'content_id': content_id,
-        'platform': platform,
-        'file_path': img['filepath'],
-        'file_hash': img['file_hash'],
-        'category': img['category'],
-        'dimensions': {'width': 1200, 'height': 628},
-        'format': fmt,
-        'contributor_info': {'provider': 'Hermes', 'model_name': 'unknown'},
-        'creation_date': datetime.now(timezone.utc).isoformat(),
-        'approval_status': 'pending'
+        "artwork_id": image["file_hash"],
+        "content_id": content_id,
+        "platform": platform,
+        "file_path": image["file_path"],
+        "file_hash": image["file_hash"],
+        "category": image["category"],
+        "dimensions": image["dimensions"],
+        "format": image["format"],
+        "contributor_info": {"provider": "unknown", "model_name": None},
+        "creation_date": image["creation_date"],
+        "approval_status": "pending",
     }
 
 
-def update_status_json(post_folder_full_path, image_assignments, platform_identifier='unknown'):
-    """
-    Update status.json with new image assignments.
-    post_folder_full_path: absolute or repo-relative path to the post folder
-    """
-    status_path = os.path.join(post_folder_full_path, 'status.json')
-    if not os.path.exists(status_path):
-        print(f"ERROR: status.json not found at {status_path}")
-        return False
-    
-    with open(status_path, 'r') as f:
-        status = json.load(f)
-    
-    if 'image_assignments' not in status or not isinstance(status['image_assignments'], list):
-        status['image_assignments'] = []
-    
-    existing_hashes = set()
-    for entry in status['image_assignments']:
-        if isinstance(entry, dict) and 'file_hash' in entry:
-            existing_hashes.add(entry['file_hash'])
-    
+def update_status_json(post_folder, assignments):
+    status_path = post_folder / "status.json"
+    if not status_path.is_file():
+        print(f"WARNING: status.json missing: {status_path}")
+        return 0
+    status = json.loads(status_path.read_text(encoding="utf-8"))
+    existing = status.get("image_assignments")
+    if not isinstance(existing, list):
+        existing = []
+    known_hashes = {
+        item.get("file_hash") for item in existing
+        if isinstance(item, dict) and item.get("file_hash")
+    }
     added = 0
-    for assignment in image_assignments:
-        if assignment.get('file_hash') not in existing_hashes:
-            status['image_assignments'].append(assignment)
+    for assignment in assignments:
+        digest = assignment["file_hash"]
+        if digest not in known_hashes:
+            existing.append(assignment)
+            known_hashes.add(digest)
             added += 1
-    
-    status['last_verified'] = datetime.now(timezone.utc).isoformat()
-    
-    if added > 0:
-        has_backed_up = any(
-            h.get('action') == 'backed_up' 
-            for h in status.get('distribution_history', [])
-        )
-        if not has_backed_up:
-            status['distribution_history'].append({
-                'platform': platform_identifier,
-                'action': 'backed_up',
-                'timestamp': datetime.now(timezone.utc).isoformat(),
-                'verified': True
-            })
-    
-    with open(status_path, 'w') as f:
-        json.dump(status, f, indent=2)
-        f.write('\n')
-    
-    return added > 0
-
-
-def update_request_json(post_folder_full_path, total_images, required_categories):
-    request_path = os.path.join(post_folder_full_path, 'request.json')
-    if not os.path.exists(request_path):
-        print(f"ERROR: request.json not found at {request_path}")
-        return False
-    
-    with open(request_path, 'r') as f:
-        data = json.load(f)
-    
-    cat_counts = {cat: 0 for cat in ['featured', 'inline', 'characters', 'scenes', 'promotional', 'additional']}
-    
-    current_req_categories = data.get('required_artwork_categories', [])
-    if isinstance(current_req_categories, list):
-        for cat in current_req_categories:
-            if cat in cat_counts:
-                cat_counts[cat] = total_images
-    
-    new_req = {}
-    for cat in ['featured', 'inline', 'characters', 'scenes', 'promotional', 'additional']:
-        new_req[cat] = max(1, cat_counts.get(cat, 0))
-    
-    new_req['total'] = sum(max(1, cat_counts.get(c, 0)) for c in new_req)
-    
-    current_req = data.get('artwork_count_requirements', {})
-    if new_req != current_req:
-        data['artwork_count_requirements'] = new_req
-        with open(request_path, 'w') as f:
-            json.dump(data, f, indent=2)
-            f.write('\n')
-        return True
-    
-    return False
+    status["image_assignments"] = existing
+    status["last_verified"] = utc_now()
+    # Discovery is not proof of backup, approval, or publication. Preserve
+    # distribution_history and overall_status exactly as they were.
+    status_path.write_text(json.dumps(status, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return added
 
 
 def main():
-    base_dir = '.'
-    
-    print("=" * 60)
-    print("HERMES: Platform/Post-ID Artwork Discovery & Validation")
-    print("=" * 60)
-    print()
-    
-    print("[1/4] Discovering artwork images across all platform folders...")
-    discovered = discover_images(base_dir)
-    print(f"   Found {len(discovered)} platform/post-ID folder combinations")
-    
-    total_images = 0
+    base = Path(".").resolve()
+    discovered = discover_images(base)
     folders_with_images = 0
-    
-    for (platform, post_id), info in sorted(discovered.items()):
-        img_count = info['total']
-        total_images += img_count
-        if img_count > 0:
-            folders_with_images += 1
-        
-        print(f"   [{platform}/{info['post_folder_name']}] images: {img_count}")
-        
-        if img_count == 0:
-            status_path = os.path.join(info['folder'], 'status.json')
-            if os.path.exists(status_path):
-                with open(status_path, 'r') as f:
-                    status = json.load(f)
-                if status.get('overall_status') != 'NEEDS_ARTWORK':
-                    status['overall_status'] = 'NEEDS_ARTWORK'
-                    status['last_verified'] = datetime.now(timezone.utc).isoformat()
-                    with open(status_path, 'w') as f:
-                        json.dump(status, f, indent=2)
-                        f.write('\n')
-                    print(f"     -> status.json set to NEEDS_ARTWORK")
-            continue
-        
-        # Build image_assignments
-        platform_assignments = []
-        req_cats = info.get('required_categories', ['featured', 'inline'])
-        
-        for cat, images in info['images_by_category'].items():
-            for img in images:
-                meta = build_artwork_metadata(img, info['post_folder_name'], platform)
-                missing = validate_artwork_metadata(meta)
-                if missing:
-                    print(f"     WARNING: Missing metadata: {missing}")
-                platform_assignments.append(meta)
-        
-        # Update status.json with full folder path
-        updated = update_status_json(info['folder'], platform_assignments, platform)
-        status_msg = "status updated" if updated else "status unchanged"
-        print(f"     -> {len(platform_assignments)} image assignments, {status_msg}")
-        
-        # Update request.json
-        updated_req = update_request_json(info['folder'], img_count, req_cats)
-        req_msg = "request.json updated" if updated_req else "request.json unchanged"
-        print(f"     -> {req_msg}")
-    
-    print("\n" + "=" * 60)
-    print("DISCOVERY & VALIDATION COMPLETE")
-    print("=" * 60)
-    print(f"Total folders scanned: {len(discovered)}")
-    print(f"Folders with images: {folders_with_images}")
-    print(f"Total images discovered: {total_images}")
-    print(f"Folders needing artwork: {len(discovered) - folders_with_images}")
-    
-    print("\n[INFO] Next steps:")
-    print("  1. Review changes: git status")
-    print("  2. Commit: git add . && git commit -m 'chore: initialize artwork structure and metadata'")
-    print("  3. Push: git push origin main")
-    print("  4. Ensure combined_anime_archive_cycle remains DISABLED")
-    
+    total_images = 0
+    for (platform, folder_name), info in sorted(discovered.items()):
+        assignments = []
+        for images in info["images_by_category"].values():
+            for image in images:
+                if not info["content_id"]:
+                    print(f"WARNING: no verified content ID; not assigning images for {platform}/{folder_name}")
+                    continue
+                assignments.append(build_artwork_metadata(image, info["content_id"], platform))
+        added = update_status_json(info["folder"], assignments)
+        total_images += info["total"]
+        folders_with_images += int(info["total"] > 0)
+        print(f"{platform}/{folder_name}: discovered={info['total']} new_assignments={added}")
+    print(f"Folders scanned: {len(discovered)}")
+    print(f"Folders with valid images: {folders_with_images}")
+    print(f"Valid images discovered: {total_images}")
+    print("Request requirements and distribution history were not modified.")
     return 0
 
 
-if __name__ == '__main__':
-    import sys
-    sys.exit(main())
+if __name__ == "__main__":
+    raise SystemExit(main())
