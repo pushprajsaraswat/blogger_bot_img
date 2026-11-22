@@ -7,7 +7,7 @@
   "anime_identity": {
     "anime_name": "unknown"
   },
-  "content_title_summary": "\ud83c\udfac Winter 2027 Anime Premiere Dates\n\nNew article: Winter 2027 Anime Premiere Dates and Streaming \u2014 confirmed release dates, studios, and streaming platforms for the upcoming anime season.\n\n\ud83d\udcc5 Release: J",
+  "content_title_summary": "🎬 Winter 2027 Anime Premiere Dates\n\nNew article: Winter 2027 Anime Premiere Dates and Streaming — confirmed release dates, studios, and streaming platforms for the upcoming anime season.\n\n📅 Release: J",
   "required_artwork_categories": [
     "featured"
   ],
@@ -39,5 +39,13 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0
+  },
+  "last_discovery_sync": "2026-11-22T04:49:58.226732+00:00",
+  "artwork_by_category": {
+    "featured": []
+  }
 }

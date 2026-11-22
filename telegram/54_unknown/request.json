@@ -7,7 +7,7 @@
   "anime_identity": {
     "anime_name": "unknown"
   },
-  "content_title_summary": "\ud83c\udfac Where to Watch Winter 2027 Anime\n\n\ud83d\udcfa Winter 2027 Anime Streaming Guide LIVE! 67 titles across Crunchyroll (30+), Netflix (5+), and TBA. Crunchyroll: Shangri-La S3 Jan 10, Mashle S3 Jan 9, Magical Buf",
+  "content_title_summary": "🎬 Where to Watch Winter 2027 Anime\n\n📺 Winter 2027 Anime Streaming Guide LIVE! 67 titles across Crunchyroll (30+), Netflix (5+), and TBA. Crunchyroll: Shangri-La S3 Jan 10, Mashle S3 Jan 9, Magical Buf",
   "required_artwork_categories": [
     "featured"
   ],
@@ -39,5 +39,13 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0
+  },
+  "last_discovery_sync": "2026-11-22T04:49:58.295126+00:00",
+  "artwork_by_category": {
+    "featured": []
+  }
 }

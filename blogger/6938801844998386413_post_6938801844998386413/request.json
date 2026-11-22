@@ -2,7 +2,7 @@
   "content_identity": {
     "platform": "blogger",
     "platform_content_id": "6938801844998386413",
-    "title": "Frieren Season 3 \u2014 October 2027"
+    "title": "Frieren Season 3 — October 2027"
   },
   "anime_identity": {
     "anime_name": "Frieren: Beyond Journey's End"
@@ -41,5 +41,15 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0,
+    "inline": 0
+  },
+  "last_discovery_sync": "2026-11-22T04:49:58.212686+00:00",
+  "artwork_by_category": {
+    "featured": [],
+    "inline": []
+  }
 }

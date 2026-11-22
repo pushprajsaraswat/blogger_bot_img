@@ -7,7 +7,7 @@
   "anime_identity": {
     "anime_name": "unknown"
   },
-  "content_title_summary": "\ud83c\udfac The Guy She Was Interested In Wasn't a Guy at All\n\nThe Guy She Was Interested In Wasn't a Guy at All premieres January 8, 2027. Aya falls for a record store clerk, only to discover it is Mitsuki, he",
+  "content_title_summary": "🎬 The Guy She Was Interested In Wasn't a Guy at All\n\nThe Guy She Was Interested In Wasn't a Guy at All premieres January 8, 2027. Aya falls for a record store clerk, only to discover it is Mitsuki, he",
   "required_artwork_categories": [
     "featured"
   ],
@@ -39,5 +39,13 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0
+  },
+  "last_discovery_sync": "2026-11-22T04:49:58.250890+00:00",
+  "artwork_by_category": {
+    "featured": []
+  }
 }

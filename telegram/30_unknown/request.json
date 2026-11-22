@@ -7,7 +7,7 @@
   "anime_identity": {
     "anime_name": "unknown"
   },
-  "content_title_summary": "\ud83c\udfac Spy x Family Season 4\n\nSpy x Family Season 4 confirmed for 2027. The announcement was made at the SPY\u00d7FAMILY ANIME EXTRA MISSION II fan event in Tokyo on November 8, 2026. No exact release date has ",
+  "content_title_summary": "🎬 Spy x Family Season 4\n\nSpy x Family Season 4 confirmed for 2027. The announcement was made at the SPY×FAMILY ANIME EXTRA MISSION II fan event in Tokyo on November 8, 2026. No exact release date has ",
   "required_artwork_categories": [
     "featured"
   ],
@@ -39,5 +39,13 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0
+  },
+  "last_discovery_sync": "2026-11-22T04:49:58.239157+00:00",
+  "artwork_by_category": {
+    "featured": []
+  }
 }

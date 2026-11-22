@@ -7,7 +7,7 @@
   "anime_identity": {
     "anime_name": "unknown"
   },
-  "content_title_summary": "\ud83c\udfac Skip and Loafer Season 2\n\n\ud83c\udf92 Skip and Loafer Season 2 premieres April 2027 on Crunchyroll. P.A. Works returns with director Kotomi Deai for Mitsumi Iwakura's second year at Tsubame High. New cast: Re",
+  "content_title_summary": "🎬 Skip and Loafer Season 2\n\n🎒 Skip and Loafer Season 2 premieres April 2027 on Crunchyroll. P.A. Works returns with director Kotomi Deai for Mitsumi Iwakura's second year at Tsubame High. New cast: Re",
   "required_artwork_categories": [
     "featured"
   ],
@@ -39,5 +39,13 @@
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
   "request_creation_date": "2026-11-21T00:00:00Z",
-  "request_status": "pending"
+  "request_status": "pending",
+  "discovered_total": 0,
+  "discovered_by_category": {
+    "featured": 0
+  },
+  "last_discovery_sync": "2026-11-22T04:49:58.274121+00:00",
+  "artwork_by_category": {
+    "featured": []
+  }
 }
