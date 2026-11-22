@@ -30,9 +30,17 @@ Generate a secret and start the receiver:
 
 ~~~sh
 export BLOGGER_BOT_REPO="$HOME/apps/blogger_bot_img"
-export SHARE_SECRET="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+mkdir -p "$HOME/.config/blogger-image-inbox"
+if [ ! -f "$HOME/.config/blogger-image-inbox/secret" ]; then
+  umask 077
+  python -c 'import secrets; print(secrets.token_urlsafe(32))' > "$HOME/.config/blogger-image-inbox/secret"
+fi
+export SHARE_SECRET="$(cat "$HOME/.config/blogger-image-inbox/secret")"
 export PORT=8765
 python automation/android/server.py
+
+# On later starts, repeat the exports and start command. The secret file
+# remains private in Termux and keeps the installed Android share target valid.
 ~~~
 
 Keep Termux running. Open http://127.0.0.1:8765 in Android Chrome and install the page using the browser menu. Once installed, share an image from ChatGPT or Gallery and choose Blogger Artwork Inbox. The receiver displays an inbox ID. Open the publisher, select the correct pending post and category, enter that ID, and publish.
