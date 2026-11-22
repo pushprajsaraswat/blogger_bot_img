@@ -2,7 +2,7 @@
   "content_identity": {
     "platform": "blogger",
     "platform_content_id": "5064209731135077000",
-    "title": "The One Piece — Wit Studio Remake — February 2027"
+    "title": "The One Piece \u2014 Wit Studio Remake \u2014 February 2027"
   },
   "anime_identity": {
     "anime_name": "One Piece"
@@ -34,9 +34,9 @@
     "additional": []
   },
   "artwork_count_requirements": {
-    "featured": 0,
-    "inline": 0,
-    "total": 0
+    "featured": 1,
+    "inline": 1,
+    "total": 2
   },
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
