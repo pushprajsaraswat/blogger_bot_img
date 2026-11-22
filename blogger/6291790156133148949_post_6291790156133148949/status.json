@@ -1,47 +1,8 @@
 {
   "content_id": "6291790156133148949",
-  "overall_status": "BACKED_UP",
-  "last_verified": "2026-11-22T00:54:09.172330+00:00",
-  "image_assignments": [
-    {
-      "artwork_id": "83c0e8e3a2d728c6...",
-      "content_id": "6291790156133148949_post_6291790156133148949",
-      "platform": "blogger",
-      "file_path": "/data/data/com.termux/files/home/.hermes/anime_archive/blogger_bot_img_repo/blogger/6291790156133148949_post_6291790156133148949/artwork/featured/test_chapter1.jpg",
-      "file_hash": "83c0e8e3a2d728c68a433d3bbf67a75d38692e054ff38035eef4f5414adfc4d4",
-      "category": "featured",
-      "dimensions": {
-        "width": 1200,
-        "height": 628
-      },
-      "format": "jpg",
-      "contributor_info": {
-        "provider": "Hermes",
-        "model_name": "unknown"
-      },
-      "creation_date": "2026-11-22T00:54:09.172027+00:00",
-      "approval_status": "pending"
-    },
-    {
-      "artwork_id": "f7cf478fbd35a780...",
-      "content_id": "6291790156133148949_post_6291790156133148949",
-      "platform": "blogger",
-      "file_path": "/data/data/com.termux/files/home/.hermes/anime_archive/blogger_bot_img_repo/blogger/6291790156133148949_post_6291790156133148949/artwork/inline/test_scene1.jpg",
-      "file_hash": "f7cf478fbd35a780adf3d43a9d1eca5d4b7fa30e847ada355a295e4946ebf1ea",
-      "category": "inline",
-      "dimensions": {
-        "width": 1200,
-        "height": 628
-      },
-      "format": "jpg",
-      "contributor_info": {
-        "provider": "Hermes",
-        "model_name": "unknown"
-      },
-      "creation_date": "2026-11-22T00:54:09.172097+00:00",
-      "approval_status": "pending"
-    }
-  ],
+  "overall_status": "NEEDS_ARTWORK",
+  "last_verified": "2026-11-22T01:00:31.392031+00:00",
+  "image_assignments": [],
   "distribution_history": [
     {
       "platform": "blogger",

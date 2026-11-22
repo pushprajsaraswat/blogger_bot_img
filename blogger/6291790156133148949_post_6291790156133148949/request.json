@@ -34,13 +34,9 @@
     "additional": []
   },
   "artwork_count_requirements": {
-    "featured": 2,
-    "inline": 2,
-    "characters": 1,
-    "scenes": 1,
-    "promotional": 1,
-    "additional": 1,
-    "total": 8
+    "featured": 1,
+    "inline": 1,
+    "total": 2
   },
   "visual_context_and_instructions": "Create artwork appropriate for the content theme and anime style. Match the existing visual aesthetic of the publication.",
   "priority": "normal",
